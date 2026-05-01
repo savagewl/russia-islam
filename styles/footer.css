@@ -1,0 +1,478 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 40px 90px;
+  gap: 32px;
+  width: 100%;
+  background: #1A1A1A;
+  color: #FFFFFF;
+  box-sizing: border-box;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 0;
+  gap: 8px;
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 160px;
+}
+
+.footer-title {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0 0 16px 0;
+  color: #FFFFFF;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 280px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.footer-links {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-weight: 200;
+}
+
+.footer-links li {
+  margin: 0;
+  position: relative;
+}
+
+.footer-links a,
+.footer-links button.footer-link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+  display: inline-block;
+  padding: 2px 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: none;
+  border: none;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.footer-links a:hover,
+.footer-links button.footer-link:hover {
+  color: #FFFFFF;
+}
+
+.social-icons {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.social-icon:hover {
+  opacity: 0.8;
+}
+
+.social-icon svg {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 23px 0 0 0;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 32px;
+  font-size: 14px;
+}
+
+.footer-copyright {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-legal {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-legal a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-legal a:hover {
+  color: #FFFFFF;
+}
+
+.subscription-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  gap: 9.41px;
+  isolation: isolate;
+  margin: 0 auto;
+  width: 286px;
+  height: 207px;
+  flex: none;
+  flex-grow: 0;
+  background: #145c4c;
+  box-sizing: border-box;
+  margin-bottom: 12px;
+}
+
+.subscription-title {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #FFFFFF;
+  margin: 0;
+  text-align: center;
+}
+
+.subscription-subtitle {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: #FFFFFF;
+  margin: 0 0 6px 0;
+  text-align: center;
+}
+
+.subscription-input {
+  width: 100%;
+  height: 38px;
+  background: #FFFFFF;
+  border: none;
+  border-radius: 2px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 14px;
+  outline: none;
+  color: #1A1A1A;
+}
+
+.subscription-button {
+  width: 100%;
+  height: 38px;
+  background: #1C1C1C;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.subscription-button:hover {
+  background: #000000;
+}
+
+@media (min-width: 1025px) {
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+  
+  .footer-column:last-child {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 1024px) {
+  .footer {
+    padding: 40px 40px;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  
+  .footer-column:last-child {
+    grid-column: span 3;
+    width: 100%;
+  }
+  
+  .footer-column:last-child .footer-links {
+    align-items: flex-start;
+  }
+  
+  .footer-title::after {
+    width: 200px;
+  }
+  
+  .subscription-container {
+    margin-left: 0;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .social-icons {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 30px 20px;
+  }
+  
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+  
+  .footer-column {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  .footer-column:nth-child(3) {
+    grid-column: span 2;
+  }
+  
+  .footer-column:last-child {
+    grid-column: span 2;
+  }
+  
+  .footer-title::after {
+    width: 180px;
+  }
+  
+  .footer-bottom {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .footer-legal {
+    flex-wrap: wrap;
+    justify-content: center;
+    order: 1;
+  }
+  
+  .subscription-container {
+    height: auto;
+    min-height: 207px;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 599px) {
+  .footer {
+    padding: 25px 16px;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .footer-column {
+    width: 100%;
+  }
+  
+  .footer-column:nth-child(3),
+  .footer-column:last-child {
+    grid-column: span 1;
+  }
+  
+  .footer-title {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .footer-title::after {
+    width: 120px;
+  }
+  
+  .footer-links a,
+  .footer-links button.footer-link {
+    font-size: 13px;
+    padding: 4px 0;
+  }
+  
+  .footer-bottom {
+    flex-direction: column-reverse;
+    gap: 25px;
+    padding-top: 20px;
+    margin-top: 20px;
+  }
+  
+  .footer-copyright {
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .footer-legal {
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .footer-legal a {
+    font-size: 12px;
+  }
+  
+  .social-icons {
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .social-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .subscription-container {
+    padding: 20px;
+    width: 100%;
+  }
+  
+  .subscription-title {
+    font-size: 16px;
+  }
+  
+  .subscription-input,
+  .subscription-button {
+    height: 36px;
+    font-size: 13px;
+  }
+}
+
+/* ===== RTL (Arabic) ===== */
+[dir="rtl"] .footer-content {
+  direction: rtl;
+}
+
+[dir="rtl"] .footer-column {
+  align-items: flex-end !important;
+  text-align: right !important;
+  direction: rtl;
+}
+
+[dir="rtl"] .footer-title {
+  text-align: right !important;
+  width: 100%;
+}
+
+[dir="rtl"] .footer-links {
+  align-items: flex-end !important;
+  width: 100%;
+}
+
+[dir="rtl"] .footer-links li {
+  width: 100%;
+}
+
+[dir="rtl"] .footer-links a,
+[dir="rtl"] .footer-links button.footer-link {
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] .footer-bottom {
+  direction: rtl !important;
+}
+
+[dir="rtl"] .footer-copyright,
+[dir="rtl"] .footer-legal {
+  text-align: right;
+}
+
+@media (max-width: 360px) {
+  .footer {
+    padding: 20px 12px;
+  }
+  
+  .footer-title {
+    font-size: 14px;
+  }
+  
+  .footer-title::after {
+    width: 80px;
+  }
+  
+  .footer-links a,
+  .footer-links button.footer-link {
+    font-size: 12px;
+  }
+  
+  .social-icons {
+    gap: 8px;
+  }
+  
+  .social-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .subscription-container {
+    padding: 16px;
+  }
+  
+  .subscription-title {
+    font-size: 15px;
+  }
+  
+  .subscription-subtitle {
+    font-size: 11px;
+  }
+}

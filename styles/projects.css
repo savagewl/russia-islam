@@ -1,0 +1,236 @@
+
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background: #f8f8f8;
+  margin-bottom: 50px; 
+}
+
+.projects-frame-14636 {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px 90px;
+  gap: 32px; 
+  width: 1440px;
+  max-width: 100%;
+  background: url('/Desktop_fon.png') no-repeat center;
+  background-size: cover;
+  border-width: 1px 0px;
+  border-style: solid;
+  border-color: #E0E0E0;
+}
+
+.projects-header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.projects-title {
+  font-family: 'Cormorant', serif;
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 110%;
+  color: #242424;
+  margin: 0;
+}
+
+.projects-more-btn {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 22px;
+  gap: 19px;
+  height: 54px;
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  text-decoration: none;
+  color: #393939;
+  font-weight: 400;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.projects-more-btn:hover {
+  background: #F3F3F3;
+}
+
+.projects-cards-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0px;
+  width: 1260px;
+  max-width: 100%;
+  height: 316.48px;
+  gap: 15px; 
+}
+
+.project-card-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  width: 379px;
+  height: 316.48px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9.6px rgba(0, 0, 0, 0.05);
+  flex: none;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.project-card-vertical:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-vertical {
+  width: 100%;
+  height: 180px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.card-content-vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.project-cards-stacked {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 469px;
+  height: 316.48px;
+  flex: none;
+}
+
+.project-card-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 15px 0px 0px;
+  gap: 15px;
+  width: 469px;
+  height: 157.39px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9.6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.project-card-horizontal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-horizontal {
+  width: 215px;
+  height: 157.39px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.card-content-horizontal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: #393939;
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-desc {
+  font-weight: 400;
+  font-size: 13px;
+  color: #7C7C7C;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 1300px) {
+  .projects-frame-14636 {
+    padding: 32px 40px;
+    height: auto;
+  }
+  
+  .projects-cards-row {
+    flex-wrap: wrap;
+    height: auto;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .project-cards-stacked {
+    width: 100%;
+    max-width: 780px; 
+    gap: 20px;
+    height: auto;
+  }
+
+  .project-card-horizontal {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects-frame-14636 {
+    padding: 32px 16px;
+  }
+
+  .projects-header-row {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .project-card-vertical {
+    width: 100%;
+    height: auto;
+  }
+
+  .project-card-horizontal {
+    flex-direction: column;
+    height: auto;
+    padding: 0;
+    gap: 0;
+  }
+
+  .card-img-horizontal {
+    width: 100%;
+    height: 180px;
+  }
+
+  .card-content-horizontal {
+    padding: 24px;
+  }
+}

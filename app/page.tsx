@@ -1,65 +1,170 @@
-import Image from "next/image";
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
+import { usePathname } from 'next/navigation'
+import { useLang } from '@/lib/LanguageContext'
+import HeroSection from '@/components/home/HeroSection'
+import NewsTicker from '@/components/home/NewsTicker'
+import NewsSection from '@/components/home/NewsSection'
+import ExpertsSection from '@/components/experts/ExpertsSection'
+import ScientificArticlesSection from '@/components/scientific-section/ScientificArticlesSection'
+import GroupMembersSection from '@/components/group-members/GroupMembersSection'
+import AboutGroup from '@/components/about/AboutGroup'
+import IslamInRussia from '@/components/islam/IslamInRussia'
+import KeyProjects from '@/components/projects/KeyProjects'
 
 export default function Home() {
+  const [showAboutGroup, setShowAboutGroup] = useState(false)
+  const [showIslamInRussia, setShowIslamInRussia] = useState(false)
+  const [showKeyProjects, setShowKeyProjects] = useState(false)
+  const [activeSection, setActiveSection] = useState('news')
+  const pathname = usePathname()
+  const { lang } = useLang()
+
+  const tickerTitles: Record<string, Record<string, string>> = {
+    'about-group': { ru: 'О группе', en: 'About the Group', ar: 'معلومات عن المجموعة' },
+    'islam':       { ru: 'Ислам в России', en: 'Islam in Russia', ar: 'الإسلام في روسيا' },
+    'projects':    { ru: 'Ключевые проекты', en: 'Key Projects', ar: 'المشاريع الرئيسية' },
+    'news':        { ru: 'Актуальные материалы', en: 'Current Materials', ar: 'المواد الراهنة' },
+  }
+  const tickerTitle = tickerTitles[activeSection]?.[lang] ?? tickerTitles[activeSection]?.['ru'] ?? 'Актуальные материалы'
+  
+  const newsSectionRef = useRef<HTMLDivElement>(null)
+  const aboutGroupRef = useRef<HTMLDivElement>(null)
+  const islamInRussiaRef = useRef<HTMLDivElement>(null)
+  const keyProjectsRef = useRef<HTMLDivElement>(null)
+
+  const handleGroupClick = () => {
+    setShowAboutGroup(true)
+    setShowIslamInRussia(false)
+    setShowKeyProjects(false)
+    setActiveSection('about-group')
+    setTimeout(() => {
+      aboutGroupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
+  const handleIslamClick = () => {
+    setShowIslamInRussia(true)
+    setShowAboutGroup(false)
+    setShowKeyProjects(false)
+    setActiveSection('islam')
+    setTimeout(() => {
+      islamInRussiaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
+  const handleProjectsClick = () => {
+    setShowKeyProjects(true)
+    setShowAboutGroup(false)
+    setShowIslamInRussia(false)
+    setActiveSection('projects')
+    setTimeout(() => {
+      keyProjectsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
+  const handleNewsOicClick = () => {
+    setShowKeyProjects(false)
+    setShowAboutGroup(false)
+    setShowIslamInRussia(false)
+    setActiveSection('news')
+    setTimeout(() => {
+      newsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 100)
+  }
+
+  const resetToHome = () => {
+    setShowAboutGroup(false)
+    setShowIslamInRussia(false)
+    setShowKeyProjects(false)
+    setActiveSection('news')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  useEffect(() => {
+    window.addEventListener('groupClick', handleGroupClick)
+    window.addEventListener('islamClick', handleIslamClick)
+    window.addEventListener('projectsClick', handleProjectsClick)
+    window.addEventListener('newsOicClick', handleNewsOicClick)
+    window.addEventListener('resetToHome', resetToHome)
+
+    return () => {
+      window.removeEventListener('groupClick', handleGroupClick)
+      window.removeEventListener('islamClick', handleIslamClick)
+      window.removeEventListener('projectsClick', handleProjectsClick)
+      window.removeEventListener('newsOicClick', handleNewsOicClick)
+      window.removeEventListener('resetToHome', resetToHome)
+    }
+  }, [])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const section = params.get('section')
+    if (section === 'about-group') {
+      setTimeout(() => handleGroupClick(), 100)
+    } else if (section === 'islam') {
+      setTimeout(() => handleIslamClick(), 100)
+    } else if (section === 'projects') {
+      setTimeout(() => handleProjectsClick(), 100)
+    } else if (section === 'group-members') {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('resetToHome'))
+        setTimeout(() => {
+          const el = document.querySelector('.group-members-section')
+          el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 100)
+      }, 100)
+    }
+    if (section) {
+      window.history.replaceState({}, '', '/')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (pathname === '/') {
+      setShowAboutGroup(false)
+      setShowIslamInRussia(false)
+      setShowKeyProjects(false)
+      setActiveSection('news')
+    }
+  }, [pathname])
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main>
+      <HeroSection onGroupClick={handleGroupClick} />
+      <NewsTicker title={tickerTitle} /> 
+      
+      <div ref={newsSectionRef}>
+        {!showAboutGroup && !showIslamInRussia && !showKeyProjects && (
+          <>
+            <NewsSection />
+            <div className="white-divider"></div>
+            <ExpertsSection />
+            <div className="white-divider"></div>
+            <ScientificArticlesSection category="scientific_articles" />
+            <GroupMembersSection />
+          </>
+        )}
+      </div>
+      
+      {showAboutGroup && (
+        <div ref={aboutGroupRef} id="about-group">
+          <AboutGroup />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      )}
+      
+      {showIslamInRussia && (
+        <div ref={islamInRussiaRef} id="islam-in-russia">
+          <IslamInRussia />
         </div>
-      </main>
-    </div>
-  );
+      )}
+      
+      {showKeyProjects && (
+        <div ref={keyProjectsRef} id="key-projects">
+          <KeyProjects />
+        </div>
+      )}
+    </main>
+  )
 }
