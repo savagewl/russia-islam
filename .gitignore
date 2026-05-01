@@ -43,3 +43,7 @@ next-env.d.ts
 # archives
 *.rar
 *.zip
+
+# verification files
+public/googled86a7664a4326fb3.html
+public/yandex_5b3dc85952380a83.html
