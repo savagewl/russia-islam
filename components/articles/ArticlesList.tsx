@@ -117,7 +117,7 @@ export default function ArticlesList() {
             <span style={{ fontSize: 10, fontWeight: 600, color: '#51AB64', textTransform: 'uppercase', marginBottom: 4, display: 'block', letterSpacing: '0.05em' }}>{getCategoryLabel(article.category, lang, article.category_display)}</span>
           )}
           <h3 className="card-title-small" translate="no">{article.title}</h3>
-          <p className="card-desc-small" translate="no">{article.short_description}</p>
+          <p className="card-desc-small" translate="no" dangerouslySetInnerHTML={{ __html: article.short_description }} />
           <div className="card-meta">
             {article.location && (<span className="card-location" translate="no"><LocationIcon /> {article.location}</span>)}
             <span className="card-date"><CalendarIcon /> {formatDate(article.created, lang)}</span>

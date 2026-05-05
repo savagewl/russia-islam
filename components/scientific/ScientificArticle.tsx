@@ -180,7 +180,7 @@ export default function ScientificArticlesSection({
                     </div>
                     <div className="scientific-card-content">
                       <h4 className="scientific-card-title">{article.title}</h4>
-                      <p className="scientific-card-desc">{article.short_description}</p>
+                      <p className="scientific-card-desc" dangerouslySetInnerHTML={{ __html: article.short_description }} />
                       <div className="scientific-card-divider" />
                       <div className="news-meta scientific-card-meta">
                         <div className="meta-item">

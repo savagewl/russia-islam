@@ -229,7 +229,7 @@ body {
   text-align: right;
 }
 [dir="rtl"] .article-paragraph {
-  text-align: right;
+  text-align: justify;
 }
 [dir="rtl"] .article-back-row {
   text-align: right;

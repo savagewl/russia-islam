@@ -216,12 +216,14 @@ export async function getBroadcasts(params?: {
   page_size?: number
   event_date_from?: string
   event_date_to?: string
+  lang?: string
 }): Promise<PaginatedResponse<Broadcast>> {
   const query = new URLSearchParams()
   if (params?.page) query.set('page', String(params.page))
   if (params?.page_size) query.set('page_size', String(params.page_size))
   if (params?.event_date_from) query.set('event_date_from', params.event_date_from)
   if (params?.event_date_to) query.set('event_date_to', params.event_date_to)
+  if (params?.lang && params.lang !== 'ru') query.set('lang', params.lang)
 
   const res = await fetch(`${API_BASE}/broadcast/all/?${query.toString()}`, {
     next: { revalidate: 60 },

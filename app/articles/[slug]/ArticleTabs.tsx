@@ -204,9 +204,7 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
 
         {activeTab === 'article' && (
           <div className="article-scroll-container" translate="no">
-            {translatedArticle.description.split('\n').filter(Boolean).map((para, i) => (
-              <p key={i} className="article-paragraph">{renderWithLinks(para)}</p>
-            ))}
+            <div className="article-rich-content" dangerouslySetInnerHTML={{ __html: translatedArticle.description }} />
 
             {translatedArticle.source && (
               <p style={{ textAlign: 'right', fontSize: 13, color: '#7C7C7C', marginTop: 16 }}>

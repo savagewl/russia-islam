@@ -138,7 +138,7 @@ export default function IslamInRussia({ initialData }: { initialData?: Paginated
         </div>
         <div className="card-content-small">
           <h3 className="card-title-small" translate="no">{article.title}</h3>
-          <p className="card-desc-small" translate="no">{article.short_description}</p>
+          <p className="card-desc-small" translate="no" dangerouslySetInnerHTML={{ __html: article.short_description }} />
           <div className="card-meta">
             {article.location && (<span className="card-location" translate="no"><LocationIcon /> {article.location}</span>)}
             <span className="card-date"><CalendarIcon /> {formatDate(article.created, lang)}</span>

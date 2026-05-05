@@ -153,7 +153,7 @@ export default function NewsSection() {
                       <Link href={`/articles/${centerNews.slug}`} style={{ textDecoration: 'none' }}>
                         <h3 className="news-center-title" translate="no">{centerNews.title}</h3>
                       </Link>
-                      <p className="news-center-description" translate="no">{centerNews.short_description}</p>
+                      <p className="news-center-description" translate="no" dangerouslySetInnerHTML={{ __html: centerNews.short_description }} />
                       <div className="news-center-meta">
                         {lang === 'ru' ? (
                           <>

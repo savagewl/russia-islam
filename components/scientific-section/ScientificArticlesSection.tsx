@@ -196,7 +196,7 @@ export default function ScientificArticlesSection({
                     </div>
                     <div className="scientific-card-content">
                       <h4 className="scientific-card-title" translate="no">{article.title}</h4>
-                      <p className="scientific-card-desc" translate="no">{article.short_description}</p>
+                      <p className="scientific-card-desc" translate="no" dangerouslySetInnerHTML={{ __html: article.short_description }} />
                       <div className="scientific-card-divider" />
                       <div className="news-meta scientific-card-meta">
                         <div className="meta-item">

@@ -90,6 +90,7 @@ export default function PhotoVideo() {
         page_size: 8,
         ...(dateFrom ? { event_date_from: `${dateFrom}T00:00:00` } : {}),
         ...(dateTo ? { event_date_to: `${dateTo}T23:59:59` } : {}),
+        lang,
       })
         .then(data => setBroadcasts(data.results))
         .catch(() => setBroadcasts([]))
@@ -99,6 +100,7 @@ export default function PhotoVideo() {
 
     getArticles({
       page: 1,
+      lang,
       ...(dateFrom ? { created_from: dateFrom } : {}),
       ...(dateTo ? { created_to: dateTo } : {}),
       ...(activeTab === 'photos' ? { has_photos: true } : { has_videos: true }),
@@ -110,7 +112,7 @@ export default function PhotoVideo() {
         await Promise.allSettled(
           four.map(async (article) => {
             try {
-              const detail = await getArticleBySlug(article.slug)
+              const detail = await getArticleBySlug(article.slug, lang)
               counts[article.slug] = activeTab === 'photos'
                 ? detail.photos.length
                 : detail.videos.length
@@ -121,7 +123,7 @@ export default function PhotoVideo() {
       })
       .catch(() => setArticles([]))
       .finally(() => setLoadingList(false))
-  }, [activeTab, dateFrom, dateTo])
+  }, [activeTab, dateFrom, dateTo, lang])
 
   const handleCardClick = async (slug: string) => {
     if (selectedSlug === slug) return
@@ -132,11 +134,16 @@ export default function PhotoVideo() {
     setSelectedBroadcast(null)
 
     try {
-      const detail = await getArticleBySlug(slug)
+      const detail = await getArticleBySlug(slug, lang)
       setSelectedArticle(detail)
+      const hasDescription = detail.description.trim().length > 0
       if (activeTab === 'photos' && detail.photos.length > 0) {
         setActiveArticleTab('photos')
       } else if (activeTab === 'videos' && detail.videos.length > 0) {
+        setActiveArticleTab('video')
+      } else if (!hasDescription && detail.photos.length > 0) {
+        setActiveArticleTab('photos')
+      } else if (!hasDescription && detail.videos.length > 0) {
         setActiveArticleTab('video')
       }
     } catch {
@@ -453,15 +460,17 @@ export default function PhotoVideo() {
                   <h2 className="pv-article-title">{selectedArticle.title}</h2>
 
                   <div className="pv-article-tabs">
-                    <button className={`pv-article-tab ${activeArticleTab === 'article' ? 'active' : ''}`} onClick={() => setActiveArticleTab('article')}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                      </svg>
-                      {t('tab_article')}
-                    </button>
+                    {selectedArticle.description.trim().length > 0 && (
+                      <button className={`pv-article-tab ${activeArticleTab === 'article' ? 'active' : ''}`} onClick={() => setActiveArticleTab('article')}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                          <polyline points="14 2 14 8 20 8"/>
+                          <line x1="16" y1="13" x2="8" y2="13"/>
+                          <line x1="16" y1="17" x2="8" y2="17"/>
+                        </svg>
+                        {t('tab_article')}
+                      </button>
+                    )}
                     {selectedArticle.photos.length > 0 && (
                       <button className={`pv-article-tab ${activeArticleTab === 'photos' ? 'active' : ''}`} onClick={() => setActiveArticleTab('photos')}>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -485,9 +494,7 @@ export default function PhotoVideo() {
                   <div className="pv-article-content">
                     {activeArticleTab === 'article' && (
                       <div className="pv-article-scroll">
-                        {selectedArticle.description.split('\n').filter(Boolean).map((para, i) => (
-                          <p key={i} className="article-paragraph">{para}</p>
-                        ))}
+                        <div className="article-rich-content" dangerouslySetInnerHTML={{ __html: selectedArticle.description }} />
                       </div>
                     )}
                     {activeArticleTab === 'photos' && (

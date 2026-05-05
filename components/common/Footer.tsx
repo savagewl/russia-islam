@@ -1,12 +1,22 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import '../../styles/footer.css';
 import { subscribeEmail } from '@/lib/api';
 import { useLang } from '@/lib/LanguageContext';
 import { makeT } from '@/lib/translations';
+
+const COOLDOWN_MS = 5 * 60 * 1000
+const COOLDOWN_KEY = 'email_subscribe_cooldown'
+
+const formatCooldown = (ms: number) => {
+  const s = Math.ceil(ms / 1000)
+  const m = Math.floor(s / 60)
+  const sec = s % 60
+  return `${m}:${sec.toString().padStart(2, '0')}`
+}
 
 const Footer = () => {
   const router = useRouter();
@@ -17,8 +27,39 @@ const Footer = () => {
   const [email, setEmail] = useState('')
   const [subStatus, setSubStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [subMessage, setSubMessage] = useState('')
+  const [cooldownEnd, setCooldownEnd] = useState<number | null>(null)
+  const [cooldownLeft, setCooldownLeft] = useState(0)
+
+  useEffect(() => {
+    const stored = localStorage.getItem(COOLDOWN_KEY)
+    if (stored) {
+      const end = parseInt(stored, 10)
+      if (end > Date.now()) {
+        setCooldownEnd(end)
+        setCooldownLeft(end - Date.now())
+      } else {
+        localStorage.removeItem(COOLDOWN_KEY)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!cooldownEnd) return
+    const interval = setInterval(() => {
+      const left = cooldownEnd - Date.now()
+      if (left <= 0) {
+        setCooldownEnd(null)
+        setCooldownLeft(0)
+        localStorage.removeItem(COOLDOWN_KEY)
+      } else {
+        setCooldownLeft(left)
+      }
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [cooldownEnd])
 
   const handleSubscribe = async () => {
+    if (cooldownEnd) return
     if (!email.trim()) return
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
@@ -32,6 +73,10 @@ const Footer = () => {
       setSubStatus('success')
       setSubMessage(t('success'))
       setEmail('')
+      const end = Date.now() + COOLDOWN_MS
+      localStorage.setItem(COOLDOWN_KEY, end.toString())
+      setCooldownEnd(end)
+      setCooldownLeft(COOLDOWN_MS)
     } catch {
       setSubStatus('error')
       setSubMessage(t('error'))
@@ -225,10 +270,10 @@ const Footer = () => {
                   <button
                     className="subscription-button"
                     onClick={handleSubscribe}
-                    disabled={subStatus === 'loading'}
-                    style={{ opacity: subStatus === 'loading' ? 0.7 : 1 }}
+                    disabled={subStatus === 'loading' || !!cooldownEnd}
+                    style={{ opacity: (subStatus === 'loading' || cooldownEnd) ? 0.7 : 1 }}
                   >
-                    {subStatus === 'loading' ? t('sending') : t('subscribe_btn')}
+                    {cooldownEnd ? formatCooldown(cooldownLeft) : subStatus === 'loading' ? t('sending') : t('subscribe_btn')}
                   </button>
                 </>
               )}
