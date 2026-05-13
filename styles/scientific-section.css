@@ -3,6 +3,8 @@
   padding-top: 48px;
   padding-bottom: 70px;
   background: url('/images/Desktop_fon.png') center/cover no-repeat, #F9F9F9;
+  position: relative;
+  overflow: hidden;
 }
 
 .scientific-header-row {

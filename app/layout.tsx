@@ -44,9 +44,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Группа стратегического видения «Россия — Исламский мир»' }],
 
   icons: {
-    icon: '/images/Screenshot_2.png',
-    shortcut: '/images/Screenshot_2.png',
-    apple: '/images/Screenshot_2.png',
+    icon: '/images/favicon-square.png',
+    shortcut: '/images/favicon-square.png',
+    apple: '/images/favicon-square.png',
   },
 
   alternates: {

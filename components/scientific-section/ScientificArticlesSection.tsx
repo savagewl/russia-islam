@@ -1,5 +1,6 @@
 'use client'
 import React, { useRef, useState, useEffect } from 'react'
+import { stripHtml } from '@/lib/stripHtml'
 import Image from 'next/image'
 import Link from 'next/link'
 import '../../styles/scientific-section.css'
@@ -148,6 +149,7 @@ export default function ScientificArticlesSection({
 
   return (
     <section className="scientific-articles-section">
+      <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '140px', pointerEvents: 'none', zIndex: 0, backgroundImage: `url('/images/ornament.jpg')`, backgroundRepeat: 'repeat-y', backgroundPosition: 'right top', backgroundSize: '180px auto', WebkitMaskImage: 'linear-gradient(to left, black 0%, black 70%, transparent 100%)', maskImage: 'linear-gradient(to left, black 0%, black 70%, transparent 100%)' }} />
       <div className="container">
         <div className="scientific-header-row">
           <h2 className="experts-title" translate="no">{t(titleKey)}</h2>
@@ -196,7 +198,9 @@ export default function ScientificArticlesSection({
                     </div>
                     <div className="scientific-card-content">
                       <h4 className="scientific-card-title" translate="no">{article.title}</h4>
-                      <p className="scientific-card-desc" translate="no" dangerouslySetInnerHTML={{ __html: article.short_description }} />
+                      <p className="scientific-card-desc" translate="no">
+                        {stripHtml(article.short_description)}
+                      </p>
                       <div className="scientific-card-divider" />
                       <div className="news-meta scientific-card-meta">
                         <div className="meta-item">
