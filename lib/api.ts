@@ -191,6 +191,7 @@ export interface Broadcast {
   title: string
   video_url: string
   event_date: string
+  image: string | null
   created: string
 }
 

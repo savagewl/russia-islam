@@ -37,12 +37,6 @@ const VideoIcon = () => (
   </svg>
 )
 
-const BroadcastIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-    <circle cx="12" cy="12" r="2"/>
-    <path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M20.49 3.51a12 12 0 0 1 0 16.97M3.51 20.49a12 12 0 0 1 0-16.97"/>
-  </svg>
-)
 
 export default function PhotoVideo() {
   const { lang } = useLang()
@@ -343,15 +337,12 @@ export default function PhotoVideo() {
                           onClick={() => handleBroadcastClick(broadcast)}
                           style={{ cursor: 'pointer' }}
                         >
-                          <div className="photo-grid-img" style={{ background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" opacity="0.8">
-                              <circle cx="12" cy="12" r="2"/>
-                              <path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49M20.49 3.51a12 12 0 0 1 0 16.97M3.51 20.49a12 12 0 0 1 0-16.97"/>
-                            </svg>
-                            <div className="photo-count-badge">
-                              <BroadcastIcon />
-                              {t('broadcast_label')}
-                            </div>
+                          <div className="photo-grid-img" style={{ position: 'relative', overflow: 'hidden' }}>
+                            <img
+                              src={broadcast.image ?? '/images/fav.jpg'}
+                              alt={broadcast.title}
+                              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
                           </div>
                           <div className="photo-grid-info">
                             <h4 className="photo-grid-title">{broadcast.title}</h4>
