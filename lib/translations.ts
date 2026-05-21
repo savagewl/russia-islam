@@ -10,6 +10,7 @@ const translations = {
     news:                { ru: 'Новости',                    en: 'News',                    ar: 'أخبار' },
     group_news:          { ru: 'Новости группы',             en: 'Group News',              ar: 'أخبار المجموعة' },
     key_projects:        { ru: 'Ключевые проекты',           en: 'Key Projects',            ar: 'مشاريع رئيسية' },
+    grants:              { ru: 'Гранты',                     en: 'Grants',                  ar: 'المنح' },
     opportunities:       { ru: 'Возможности',                en: 'Opportunities',           ar: 'إمكانيات' },
     events:              { ru: 'Анонсы',                     en: 'Announcements',           ar: 'إعلانات' },
     experts:             { ru: 'Эксперты',                   en: 'Experts',                 ar: 'خبراء' },

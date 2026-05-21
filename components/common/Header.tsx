@@ -35,7 +35,7 @@ export default function Header({ isMenuOpen, onCloseMenu }: HeaderProps) {
     } else if (pathname === '/islam-in-russia') {
       setActiveMenuItem('islam')
     } else if (pathname === '/contact') {
-  setActiveMenuItem('contact')
+      setActiveMenuItem('contact')
     }
   }, [pathname])
 
@@ -71,6 +71,16 @@ export default function Header({ isMenuOpen, onCloseMenu }: HeaderProps) {
       router.push('/?section=projects')
     } else {
       window.dispatchEvent(new CustomEvent('projectsClick'))
+    }
+  }
+
+  const handleGrantsClick = () => {
+    setActiveMenuItem('grants')
+    closeMenu()
+    if (pathname !== '/') {
+      router.push('/?section=grants')
+    } else {
+      window.dispatchEvent(new CustomEvent('grantsClick'))
     }
   }
 
@@ -206,6 +216,14 @@ export default function Header({ isMenuOpen, onCloseMenu }: HeaderProps) {
                 translate="no"
               >
                 {t('key_projects')}
+              </Link>
+              <Link
+                href="#"
+                className={`bottom-link ${activeMenuItem === 'grants' ? 'active' : ''}`}
+                onClick={handleGrantsClick}
+                translate="no"
+              >
+                {t('grants')}
               </Link>
               <Link
                 href="/"

@@ -12,73 +12,66 @@ import GroupMembersSection from '@/components/group-members/GroupMembersSection'
 import AboutGroup from '@/components/about/AboutGroup'
 import IslamInRussia from '@/components/islam/IslamInRussia'
 import KeyProjects from '@/components/projects/KeyProjects'
+import GrantsSection from '@/components/grants/GrantsSection'
 
 export default function Home() {
   const [showAboutGroup, setShowAboutGroup] = useState(false)
   const [showIslamInRussia, setShowIslamInRussia] = useState(false)
   const [showKeyProjects, setShowKeyProjects] = useState(false)
+  const [showGrants, setShowGrants] = useState(false)
   const [activeSection, setActiveSection] = useState('news')
   const pathname = usePathname()
   const { lang } = useLang()
 
   const tickerTitles: Record<string, Record<string, string>> = {
-    'about-group': { ru: 'О группе', en: 'About the Group', ar: 'معلومات عن المجموعة' },
-    'islam':       { ru: 'Ислам в России', en: 'Islam in Russia', ar: 'الإسلام في روسيا' },
-    'projects':    { ru: 'Ключевые проекты', en: 'Key Projects', ar: 'المشاريع الرئيسية' },
-    'news':        { ru: 'Актуальные материалы', en: 'Current Materials', ar: 'المواد الراهنة' },
+    'about-group': { ru: 'О группе',           en: 'About the Group', ar: 'معلومات عن المجموعة' },
+    'islam':       { ru: 'Ислам в России',      en: 'Islam in Russia', ar: 'الإسلام في روسيا' },
+    'projects':    { ru: 'Ключевые проекты',    en: 'Key Projects',    ar: 'المشاريع الرئيسية' },
+    'grants':      { ru: 'Гранты',              en: 'Grants',          ar: 'المنح' },
+    'news':        { ru: 'Актуальные материалы',en: 'Current Materials',ar: 'المواد الراهنة' },
   }
   const tickerTitle = tickerTitles[activeSection]?.[lang] ?? tickerTitles[activeSection]?.['ru'] ?? 'Актуальные материалы'
-  
+
   const newsSectionRef = useRef<HTMLDivElement>(null)
   const aboutGroupRef = useRef<HTMLDivElement>(null)
   const islamInRussiaRef = useRef<HTMLDivElement>(null)
   const keyProjectsRef = useRef<HTMLDivElement>(null)
+  const grantsRef = useRef<HTMLDivElement>(null)
 
-  const handleGroupClick = () => {
-    setShowAboutGroup(true)
+  const resetAll = () => {
+    setShowAboutGroup(false)
     setShowIslamInRussia(false)
     setShowKeyProjects(false)
-    setActiveSection('about-group')
-    setTimeout(() => {
-      aboutGroupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+    setShowGrants(false)
+  }
+
+  const handleGroupClick = () => {
+    resetAll(); setShowAboutGroup(true); setActiveSection('about-group')
+    setTimeout(() => aboutGroupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
   }
 
   const handleIslamClick = () => {
-    setShowIslamInRussia(true)
-    setShowAboutGroup(false)
-    setShowKeyProjects(false)
-    setActiveSection('islam')
-    setTimeout(() => {
-      islamInRussiaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+    resetAll(); setShowIslamInRussia(true); setActiveSection('islam')
+    setTimeout(() => islamInRussiaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
   }
 
   const handleProjectsClick = () => {
-    setShowKeyProjects(true)
-    setShowAboutGroup(false)
-    setShowIslamInRussia(false)
-    setActiveSection('projects')
-    setTimeout(() => {
-      keyProjectsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+    resetAll(); setShowKeyProjects(true); setActiveSection('projects')
+    setTimeout(() => keyProjectsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
+  }
+
+  const handleGrantsClick = () => {
+    resetAll(); setShowGrants(true); setActiveSection('grants')
+    setTimeout(() => grantsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
   }
 
   const handleNewsOicClick = () => {
-    setShowKeyProjects(false)
-    setShowAboutGroup(false)
-    setShowIslamInRussia(false)
-    setActiveSection('news')
-    setTimeout(() => {
-      newsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 100)
+    resetAll(); setActiveSection('news')
+    setTimeout(() => newsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
   }
 
   const resetToHome = () => {
-    setShowAboutGroup(false)
-    setShowIslamInRussia(false)
-    setShowKeyProjects(false)
-    setActiveSection('news')
+    resetAll(); setActiveSection('news')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -86,6 +79,7 @@ export default function Home() {
     window.addEventListener('groupClick', handleGroupClick)
     window.addEventListener('islamClick', handleIslamClick)
     window.addEventListener('projectsClick', handleProjectsClick)
+    window.addEventListener('grantsClick', handleGrantsClick)
     window.addEventListener('newsOicClick', handleNewsOicClick)
     window.addEventListener('resetToHome', resetToHome)
 
@@ -93,6 +87,7 @@ export default function Home() {
       window.removeEventListener('groupClick', handleGroupClick)
       window.removeEventListener('islamClick', handleIslamClick)
       window.removeEventListener('projectsClick', handleProjectsClick)
+      window.removeEventListener('grantsClick', handleGrantsClick)
       window.removeEventListener('newsOicClick', handleNewsOicClick)
       window.removeEventListener('resetToHome', resetToHome)
     }
@@ -107,6 +102,8 @@ export default function Home() {
       setTimeout(() => handleIslamClick(), 100)
     } else if (section === 'projects') {
       setTimeout(() => handleProjectsClick(), 100)
+    } else if (section === 'grants') {
+      setTimeout(() => handleGrantsClick(), 100)
     } else if (section === 'group-members') {
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('resetToHome'))
@@ -116,27 +113,22 @@ export default function Home() {
         }, 100)
       }, 100)
     }
-    if (section) {
-      window.history.replaceState({}, '', '/')
-    }
+    if (section) window.history.replaceState({}, '', '/')
   }, [])
 
   useEffect(() => {
-    if (pathname === '/') {
-      setShowAboutGroup(false)
-      setShowIslamInRussia(false)
-      setShowKeyProjects(false)
-      setActiveSection('news')
-    }
+    if (pathname === '/') { resetAll(); setActiveSection('news') }
   }, [pathname])
+
+  const showNews = !showAboutGroup && !showIslamInRussia && !showKeyProjects && !showGrants
 
   return (
     <main>
       <HeroSection onGroupClick={handleGroupClick} />
-      <NewsTicker title={tickerTitle} /> 
-      
+      <NewsTicker title={tickerTitle} />
+
       <div ref={newsSectionRef}>
-        {!showAboutGroup && !showIslamInRussia && !showKeyProjects && (
+        {showNews && (
           <>
             <NewsSection />
             <div className="white-divider"></div>
@@ -147,23 +139,21 @@ export default function Home() {
           </>
         )}
       </div>
-      
+
       {showAboutGroup && (
-        <div ref={aboutGroupRef} id="about-group">
-          <AboutGroup />
-        </div>
+        <div ref={aboutGroupRef} id="about-group"><AboutGroup /></div>
       )}
-      
+
       {showIslamInRussia && (
-        <div ref={islamInRussiaRef} id="islam-in-russia">
-          <IslamInRussia />
-        </div>
+        <div ref={islamInRussiaRef} id="islam-in-russia"><IslamInRussia /></div>
       )}
-      
+
       {showKeyProjects && (
-        <div ref={keyProjectsRef} id="key-projects">
-          <KeyProjects />
-        </div>
+        <div ref={keyProjectsRef} id="key-projects"><KeyProjects /></div>
+      )}
+
+      {showGrants && (
+        <div ref={grantsRef} id="grants"><GrantsSection /></div>
       )}
     </main>
   )

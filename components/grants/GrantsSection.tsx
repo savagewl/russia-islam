@@ -1,13 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import '../../styles/projects.css'
 import ScientificArticlesSection from '../scientific-section/ScientificArticlesSection'
 import { getArticles, formatDate, type ArticlePreview } from '@/lib/api'
-import { useLang } from '@/lib/LanguageContext'
 import { stripHtml } from '@/lib/stripHtml'
+import { useLang } from '@/lib/LanguageContext'
 
 const CalendarIcon = () => (
   <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
@@ -16,21 +16,21 @@ const CalendarIcon = () => (
   </svg>
 )
 
-export default function KeyProjects() {
-  const [projects, setProjects] = useState<ArticlePreview[]>([])
+export default function GrantsSection() {
+  const [grants, setGrants] = useState<ArticlePreview[]>([])
   const [loading, setLoading] = useState(true)
   const { lang } = useLang()
 
   useEffect(() => {
     setLoading(true)
-    getArticles({ category: 'key_projects', page: 1, lang })
-      .then((data) => setProjects(data.results.slice(0, 4)))
-      .catch(() => setProjects([]))
+    getArticles({ category: 'grant', page: 1, lang })
+      .then((data) => setGrants(data.results.slice(0, 4)))
+      .catch(() => setGrants([]))
       .finally(() => setLoading(false))
   }, [lang])
 
-  const verticalProjects = projects.slice(0, 2)
-  const horizontalProjects = projects.slice(2, 4)
+  const verticalGrants = grants.slice(0, 2)
+  const horizontalGrants = grants.slice(2, 4)
 
   if (loading) {
     return (
@@ -66,12 +66,12 @@ export default function KeyProjects() {
     )
   }
 
-  if (projects.length === 0) {
+  if (grants.length === 0) {
     return (
       <>
         <section className="projects-section">
           <div className="projects-frame-14636" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 300 }}>
-            <p style={{ color: '#7C7C7C', fontSize: 16 }}>Ключевые проекты появятся позже</p>
+            <p style={{ color: '#7C7C7C', fontSize: 16 }}>Гранты появятся позже</p>
           </div>
         </section>
         <ScientificArticlesSection titleKey="see_also" showButton={false} />
@@ -84,33 +84,43 @@ export default function KeyProjects() {
       <section className="projects-section">
         <div className="projects-frame-14636">
           <div className="projects-cards-row">
-            {verticalProjects.map((project) => (
-              <Link key={project.id} href={`/articles/${project.slug}`} className="project-card-vertical" style={{ textDecoration: 'none', color: 'inherit' }}>
+            {verticalGrants.map((grant) => (
+              <Link key={grant.id} href={`/articles/${grant.slug}`} className="project-card-vertical" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div className="card-img-vertical">
-                  {project.preview_image_url && (<Image src={project.preview_image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 400px" />)}
+                  {grant.preview_image_url
+                    ? <Image src={grant.preview_image_url} alt={grant.title} fill style={{ objectFit: 'cover' }} sizes="(max-width: 768px) 100vw, 400px" />
+                    : <div style={{ width: '100%', height: '100%', background: '#e8f0eb' }} />
+                  }
                 </div>
                 <div className="card-content-vertical">
-                  <h4 className="card-title">{project.title}</h4>
-                  {project.short_description && (<p className="card-desc">{stripHtml(project.short_description)}</p>)}
+                  <h4 className="card-title">{grant.title}</h4>
+                  {grant.short_description && (
+                    <p className="card-desc">{stripHtml(grant.short_description)}</p>
+                  )}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8 }}>
                     <CalendarIcon />
-                    <span style={{ fontSize: 11, color: '#7C7C7C' }}>{formatDate(project.created, lang)}</span>
+                    <span style={{ fontSize: 11, color: '#7C7C7C' }}>{formatDate(grant.created, lang)}</span>
                   </div>
                 </div>
               </Link>
             ))}
             <div className="project-cards-stacked">
-              {horizontalProjects.map((project) => (
-                <Link key={project.id} href={`/articles/${project.slug}`} className="project-card-horizontal" style={{ textDecoration: 'none', color: 'inherit' }}>
+              {horizontalGrants.map((grant) => (
+                <Link key={grant.id} href={`/articles/${grant.slug}`} className="project-card-horizontal" style={{ textDecoration: 'none', color: 'inherit' }}>
                   <div className="card-img-horizontal">
-                    {project.preview_image_url && (<Image src={project.preview_image_url} alt={project.title} fill style={{ objectFit: 'cover' }} sizes="200px" />)}
+                    {grant.preview_image_url
+                      ? <Image src={grant.preview_image_url} alt={grant.title} fill style={{ objectFit: 'cover' }} sizes="215px" />
+                      : <div style={{ width: '100%', height: '100%', background: '#e8f0eb' }} />
+                    }
                   </div>
                   <div className="card-content-horizontal">
-                    <h4 className="card-title">{project.title}</h4>
-                    {project.short_description && (<p className="card-desc">{stripHtml(project.short_description)}</p>)}
+                    <h4 className="card-title">{grant.title}</h4>
+                    {grant.short_description && (
+                      <p className="card-desc">{stripHtml(grant.short_description)}</p>
+                    )}
                     <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 8 }}>
                       <CalendarIcon />
-                      <span style={{ fontSize: 11, color: '#7C7C7C' }}>{formatDate(project.created, lang)}</span>
+                      <span style={{ fontSize: 11, color: '#7C7C7C' }}>{formatDate(grant.created, lang)}</span>
                     </div>
                   </div>
                 </Link>
