@@ -94,6 +94,7 @@ const Footer = () => {
   const handleGroupClick = () => navigateToSection('groupClick', 'about-group');
   const handleIslamClick = () => navigateToSection('islamClick', 'islam');
   const handleProjectsClick = () => navigateToSection('projectsClick', 'projects');
+  const handleGrantsClick = () => navigateToSection('grantsClick', 'grants');
 
   const scrollToNews = () => {
     if (pathname === '/') {
@@ -237,6 +238,11 @@ const Footer = () => {
               <li>
                 <button onClick={handleArticlesClick} className="footer-link" translate="no">
                   {tNav('scientific_articles')}
+                </button>
+              </li>
+              <li>
+                <button onClick={handleGrantsClick} className="footer-link" translate="no">
+                  {tNav('grants')}
                 </button>
               </li>
             </ul>
