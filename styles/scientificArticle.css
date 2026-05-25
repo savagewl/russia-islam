@@ -239,8 +239,8 @@
 }
 
 .article-rich-content {
-  font-size: 15px;
-  line-height: 24px;
+  font-size: 32px;
+  line-height: 38px;
   color: #4A4A4A;
   text-align: justify;
   padding: 10px;
@@ -302,6 +302,8 @@
 
 [dir="rtl"] .article-rich-content {
   text-align: justify;
+  font-size: 22px;
+  line-height: 36px;
 }
 
 [dir="rtl"] .article-rich-content blockquote {
