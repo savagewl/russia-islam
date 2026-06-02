@@ -11,6 +11,7 @@ const translations = {
     group_news:          { ru: 'Новости группы',             en: 'Group News',              ar: 'أخبار المجموعة' },
     key_projects:        { ru: 'Ключевые проекты',           en: 'Key Projects',            ar: 'مشاريع رئيسية' },
     grants:              { ru: 'Гранты',                     en: 'Grants',                  ar: 'المنح' },
+    appeals:             { ru: 'Обращения',                  en: 'Appeals',                 ar: 'المناشدات' },
     opportunities:       { ru: 'Возможности',                en: 'Opportunities',           ar: 'إمكانيات' },
     events:              { ru: 'Анонсы',                     en: 'Announcements',           ar: 'إعلانات' },
     experts:             { ru: 'Эксперты',                   en: 'Experts',                 ar: 'خبراء' },
@@ -97,9 +98,13 @@ const translations = {
 
   photo_video: {
     title:             { ru: 'Фото и видео',                   en: 'Photos and Video',                  ar: 'صور وفيديوهات' },
+    tab_albums:        { ru: 'Альбомы',                        en: 'Albums',                            ar: 'الألبومات' },
     tab_photos:        { ru: 'Фотографии',                     en: 'Photos',                            ar: 'صور' },
     tab_videos:        { ru: 'Видео',                          en: 'Videos',                            ar: 'فيديو' },
     tab_broadcasts:    { ru: 'Трансляции',                     en: 'Live Broadcasts',                   ar: 'بث' },
+    photos_count:      { ru: 'Фото',                           en: 'Photos',                            ar: 'صور' },
+    no_albums:         { ru: 'Альбомов пока нет',              en: 'No albums yet',                     ar: 'لا توجد ألبومات بعد' },
+    back_to_albums:    { ru: '← Назад к альбомам',             en: '← Back to Albums',                 ar: '← العودة إلى الألبومات' },
     select_date:       { ru: 'Выбрать дату',                   en: 'Select date',                       ar: 'اختر التاريخ' },
     filter_by_pub:     { ru: 'Фильтр по дате публикации',      en: 'Filter by publication date',        ar: 'ترتيب حسب تاريخ النشر' },
     date_from:         { ru: 'С',                               en: 'From',                              ar: 'من' },

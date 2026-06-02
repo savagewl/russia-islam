@@ -88,6 +88,30 @@ function PhotoLightbox({ src, onClose }: { src: string; onClose: () => void }) {
   )
 }
 
+function processFootnotes(html: string): string {
+  const MARKER = '__FN__'
+
+  // Шаг 1: помечаем определения сносок (абзацы начинающиеся с [n])
+  let result = html.replace(
+    /(<(?:p|div|li)[^>]*>\s*)\[(\d+)\]/g,
+    (_, tag, num) => `${tag}${MARKER}${num}${MARKER}`
+  )
+
+  // Шаг 2: оставшиеся [n] в тексте делаем кликабельными ссылками
+  result = result.replace(
+    /\[(\d+)\]/g,
+    (_, num) => `<a href="#fn-${num}" class="article-footnote-ref">[${num}]</a>`
+  )
+
+  // Шаг 3: восстанавливаем определения с id якорями
+  result = result.replace(
+    /__FN__(\d+)__FN__/g,
+    (_, num) => `<span id="fn-${num}" style="scroll-margin-top:80px;font-weight:600">[${num}]</span>`
+  )
+
+  return result
+}
+
 function renderWithLinks(text: string) {
   const urlRegex = /https?:\/\/[^\s<>"]+/g
   const parts: React.ReactNode[] = []
@@ -131,8 +155,9 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
       .catch(() => setTranslatedArticle(article))
   }, [lang, slug])
 
-  const hasPhotos = article.photos.length > 0
-  const hasVideos = article.videos.length > 0
+  const hasPhotos = (article.photos ?? []).length > 0
+  const hasVideos = (article.videos ?? []).length > 0
+
 
   // Для арабского RTL скобки переворачиваются браузером.
   // Используем LRM (U+200E) чтобы принудительно сохранить порядок (число).
@@ -204,7 +229,7 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
 
         {activeTab === 'article' && (
           <div className="article-scroll-container" translate="no">
-            <div className="article-rich-content" dangerouslySetInnerHTML={{ __html: translatedArticle.description }} />
+            <div className="article-rich-content" dangerouslySetInnerHTML={{ __html: processFootnotes(translatedArticle.description) }} />
 
             {translatedArticle.source && (
               <p style={{ textAlign: 'right', fontSize: 13, color: '#7C7C7C', marginTop: 16 }}>

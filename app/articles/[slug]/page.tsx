@@ -159,7 +159,7 @@ export default async function ArticleDetailPage({ params }: Props) {
 
       </div>
 
-      <ScientificArticlesSection titleKey="see_also" showButton={false} />
+      <ScientificArticlesSection titleKey="see_also" showButton={false} excludeSlug={slug} />
     </div>
   )
 }

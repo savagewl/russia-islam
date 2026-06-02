@@ -476,9 +476,9 @@ export default function GroupMembersSection() {
         {
           names: { ru: 'МЕЛИКОВ Сергей Алимович', en: 'Sergey MELIKOV', ar: 'سيرغي ميليكوف' },
           roles: {
-            ru: 'Глава Республики Дагестан',
-            en: 'Head of the Republic of Dagestan',
-            ar: 'رئيس جمهورية داغستان',
+            ru: '   ',
+            en: '   ',
+            ar: '  ',
           },
           img: '/images/149452.png',
         },
@@ -530,9 +530,9 @@ export default function GroupMembersSection() {
         {
           names: { ru: 'УСМАНОВ Анвар Аюбович', en: 'Anvar USMANOV', ar: 'أنوار عثمانوف' },
           roles: {
-            ru: 'Заместитель Председателя Правительства Чеченской Республики',
-            en: 'Deputy Chairman of the Government of the Chechen Republic',
-            ar: 'نائب رئيس حكومة جمهورية الشيشان الروسية',
+            ru: '   ',
+            en: '   ',
+            ar: '    ',
           },
           img: '/images/149452.png',
         },
@@ -789,20 +789,6 @@ export default function GroupMembersSection() {
           ru: 'Духовный лидер шиитской общины Сенегала',
           en: "Spiritual leader of Senegal's Shiite community",
           ar: 'الزعيم الروحي للطائفة الشيعية في السنغال',
-        },
-        img: '/images/149452.png',
-      }],
-    },
-    {
-      id: 'sy',
-      names: { ru: 'Сирия', en: 'Syria', ar: 'سوريا' },
-      desc: '',
-      people: [{
-        names: { ru: 'АС-СЕЙИД Мухаммед Абдус-Саттар', en: 'Mohammed Abdus Sattar AS-SEYID', ar: 'محمد عبد الستار السيد' },
-        roles: {
-          ru: 'Министр по делам вакуфов',
-          en: 'Minister of Awqaf',
-          ar: 'وزير الأوقاف',
         },
         img: '/images/149452.png',
       }],

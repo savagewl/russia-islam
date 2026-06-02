@@ -12,12 +12,14 @@ interface Props {
   titleKey?: 'title' | 'see_also'
   showButton?: boolean
   category?: string
+  excludeSlug?: string
 }
 
 export default function ScientificArticlesSection({
   titleKey = 'title',
   showButton = true,
   category,
+  excludeSlug,
 }: Props) {
   const [articles, setArticles] = useState<ArticlePreview[]>([])
   const [loading, setLoading] = useState(true)
@@ -26,15 +28,18 @@ export default function ScientificArticlesSection({
 
   useEffect(() => {
     setLoading(true)
-    // Передаем lang в запрос
-    // Если lang === 'ru', не отправляем параметр (или undefined)
     const langParam = lang === 'ru' ? undefined : lang
 
     getArticles({ category, page: 1, lang: langParam })
-      .then((data) => setArticles(data.results.slice(0, 6)))
+      .then((data) => {
+        const filtered = excludeSlug
+          ? data.results.filter((a) => a.slug !== excludeSlug)
+          : data.results
+        setArticles(filtered.slice(0, 6))
+      })
       .catch(() => setArticles([]))
       .finally(() => setLoading(false))
-  }, [category, lang]) // Добавляем lang в зависимости
+  }, [category, lang, excludeSlug])
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)

@@ -186,6 +186,51 @@ export async function getVideos(params?: {
 }
 
 
+export interface AlbumPhoto {
+  id: number
+  image: string
+  created: string
+}
+
+export interface Album {
+  id: number
+  title: string
+  article: number | null
+  created: string
+  photos: AlbumPhoto[]
+}
+
+export async function getAlbums(params?: {
+  page?: number
+  page_size?: number
+  article?: number
+  lang?: string
+  created_from?: string
+  created_to?: string
+}): Promise<PaginatedResponse<Album>> {
+  const query = new URLSearchParams()
+  if (params?.page) query.set('page', String(params.page))
+  if (params?.page_size) query.set('page_size', String(params.page_size))
+  if (params?.article) query.set('article', String(params.article))
+  if (params?.lang && params.lang !== 'ru') query.set('lang', params.lang)
+  if (params?.created_from) query.set('created_from', params.created_from)
+  if (params?.created_to) query.set('created_to', params.created_to)
+
+  const res = await fetch(`${API_BASE}/album/?${query.toString()}`, {
+    next: { revalidate: 60 },
+  })
+  if (!res.ok) throw new Error('Failed to fetch albums')
+  return res.json()
+}
+
+export async function getAlbumById(id: number): Promise<Album> {
+  const res = await fetch(`${API_BASE}/album/${id}/`, {
+    next: { revalidate: 60 },
+  })
+  if (!res.ok) throw new Error(`Failed to fetch album: ${id}`)
+  return res.json()
+}
+
 export interface Broadcast {
   id: number
   title: string

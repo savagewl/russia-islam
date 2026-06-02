@@ -84,6 +84,16 @@ export default function Header({ isMenuOpen, onCloseMenu }: HeaderProps) {
     }
   }
 
+  const handleAppealsClick = () => {
+    setActiveMenuItem('appeals')
+    closeMenu()
+    if (pathname !== '/') {
+      router.push('/?section=appeals')
+    } else {
+      window.dispatchEvent(new CustomEvent('appealsClick'))
+    }
+  }
+
   const scrollToNews = () => {
     window.dispatchEvent(new CustomEvent('resetToHome'))
     setTimeout(() => {
@@ -224,6 +234,14 @@ export default function Header({ isMenuOpen, onCloseMenu }: HeaderProps) {
                 translate="no"
               >
                 {t('grants')}
+              </Link>
+              <Link
+                href="#"
+                className={`bottom-link ${activeMenuItem === 'appeals' ? 'active' : ''}`}
+                onClick={handleAppealsClick}
+                translate="no"
+              >
+                {t('appeals')}
               </Link>
               <Link
                 href="/"

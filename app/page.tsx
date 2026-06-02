@@ -13,12 +13,14 @@ import AboutGroup from '@/components/about/AboutGroup'
 import IslamInRussia from '@/components/islam/IslamInRussia'
 import KeyProjects from '@/components/projects/KeyProjects'
 import GrantsSection from '@/components/grants/GrantsSection'
+import AppealsSection from '@/components/appeals/AppealsSection'
 
 export default function Home() {
   const [showAboutGroup, setShowAboutGroup] = useState(false)
   const [showIslamInRussia, setShowIslamInRussia] = useState(false)
   const [showKeyProjects, setShowKeyProjects] = useState(false)
   const [showGrants, setShowGrants] = useState(false)
+  const [showAppeals, setShowAppeals] = useState(false)
   const [activeSection, setActiveSection] = useState('news')
   const pathname = usePathname()
   const { lang } = useLang()
@@ -28,6 +30,7 @@ export default function Home() {
     'islam':       { ru: 'Ислам в России',      en: 'Islam in Russia', ar: 'الإسلام في روسيا' },
     'projects':    { ru: 'Ключевые проекты',    en: 'Key Projects',    ar: 'المشاريع الرئيسية' },
     'grants':      { ru: 'Гранты',              en: 'Grants',          ar: 'المنح' },
+    'appeals':     { ru: 'Обращения',           en: 'Appeals',         ar: 'المناشدات' },
     'news':        { ru: 'Актуальные материалы',en: 'Current Materials',ar: 'المواد الراهنة' },
   }
   const tickerTitle = tickerTitles[activeSection]?.[lang] ?? tickerTitles[activeSection]?.['ru'] ?? 'Актуальные материалы'
@@ -37,12 +40,14 @@ export default function Home() {
   const islamInRussiaRef = useRef<HTMLDivElement>(null)
   const keyProjectsRef = useRef<HTMLDivElement>(null)
   const grantsRef = useRef<HTMLDivElement>(null)
+  const appealsRef = useRef<HTMLDivElement>(null)
 
   const resetAll = () => {
     setShowAboutGroup(false)
     setShowIslamInRussia(false)
     setShowKeyProjects(false)
     setShowGrants(false)
+    setShowAppeals(false)
   }
 
   const handleGroupClick = () => {
@@ -65,6 +70,11 @@ export default function Home() {
     setTimeout(() => grantsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
   }
 
+  const handleAppealsClick = () => {
+    resetAll(); setShowAppeals(true); setActiveSection('appeals')
+    setTimeout(() => appealsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
+  }
+
   const handleNewsOicClick = () => {
     resetAll(); setActiveSection('news')
     setTimeout(() => newsSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100)
@@ -80,6 +90,7 @@ export default function Home() {
     window.addEventListener('islamClick', handleIslamClick)
     window.addEventListener('projectsClick', handleProjectsClick)
     window.addEventListener('grantsClick', handleGrantsClick)
+    window.addEventListener('appealsClick', handleAppealsClick)
     window.addEventListener('newsOicClick', handleNewsOicClick)
     window.addEventListener('resetToHome', resetToHome)
 
@@ -88,6 +99,7 @@ export default function Home() {
       window.removeEventListener('islamClick', handleIslamClick)
       window.removeEventListener('projectsClick', handleProjectsClick)
       window.removeEventListener('grantsClick', handleGrantsClick)
+      window.removeEventListener('appealsClick', handleAppealsClick)
       window.removeEventListener('newsOicClick', handleNewsOicClick)
       window.removeEventListener('resetToHome', resetToHome)
     }
@@ -104,6 +116,8 @@ export default function Home() {
       setTimeout(() => handleProjectsClick(), 100)
     } else if (section === 'grants') {
       setTimeout(() => handleGrantsClick(), 100)
+    } else if (section === 'appeals') {
+      setTimeout(() => handleAppealsClick(), 100)
     } else if (section === 'group-members') {
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('resetToHome'))
@@ -120,7 +134,7 @@ export default function Home() {
     if (pathname === '/') { resetAll(); setActiveSection('news') }
   }, [pathname])
 
-  const showNews = !showAboutGroup && !showIslamInRussia && !showKeyProjects && !showGrants
+  const showNews = !showAboutGroup && !showIslamInRussia && !showKeyProjects && !showGrants && !showAppeals
 
   return (
     <main>
@@ -154,6 +168,10 @@ export default function Home() {
 
       {showGrants && (
         <div ref={grantsRef} id="grants"><GrantsSection /></div>
+      )}
+
+      {showAppeals && (
+        <div ref={appealsRef} id="appeals"><AppealsSection /></div>
       )}
     </main>
   )
