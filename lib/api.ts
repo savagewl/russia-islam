@@ -1,5 +1,18 @@
 const API_BASE = 'https://api.rusislworld.ru'
 
+export interface AlbumPhoto {
+  id: number
+  image: string
+  created: string
+}
+
+export interface Album {
+  id: number
+  title: string
+  article_slug: string | null
+  created: string
+  photos: AlbumPhoto[]
+}
 
 export interface ArticlePreview {
   id: number
@@ -26,7 +39,7 @@ export interface ArticleDetail extends ArticlePreview {
     articles_count: number
     created: string
   }
-  photos: { id: number; image_url: string; created: string }[]
+  albums: Album[]
   videos: { id: number; video_url: string; created: string }[]
 }
 
@@ -77,6 +90,21 @@ export async function getArticles(params?: {
   })
   if (!res.ok) throw new Error('Failed to fetch articles')
   return res.json()
+}
+
+export async function findArticleById(id: number, lang?: string): Promise<ArticleDetail | null> {
+  let page = 1
+  while (true) {
+    const query = new URLSearchParams({ page: String(page), page_size: '100' })
+    if (lang && lang !== 'ru') query.set('lang', lang)
+    const res = await fetch(`${API_BASE}/articles/?${query}`, { next: { revalidate: 60 } })
+    if (!res.ok) return null
+    const list: PaginatedResponse<ArticlePreview> = await res.json()
+    const found = list.results.find(a => a.id === id)
+    if (found) return getArticleBySlug(found.slug, lang)
+    if (!list.next) return null
+    page++
+  }
 }
 
 export async function getArticleBySlug(slug: string, lang?: string): Promise<ArticleDetail> {
@@ -186,19 +214,6 @@ export async function getVideos(params?: {
 }
 
 
-export interface AlbumPhoto {
-  id: number
-  image: string
-  created: string
-}
-
-export interface Album {
-  id: number
-  title: string
-  article: number | null
-  created: string
-  photos: AlbumPhoto[]
-}
 
 export async function getAlbums(params?: {
   page?: number

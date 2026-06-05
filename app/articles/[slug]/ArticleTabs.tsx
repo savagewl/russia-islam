@@ -155,7 +155,10 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
       .catch(() => setTranslatedArticle(article))
   }, [lang, slug])
 
-  const hasPhotos = (article.photos ?? []).length > 0
+  const albumPhotos = (article.albums ?? []).flatMap(a => a.photos ?? [])
+  const albumId = article.albums?.[0]?.id ?? null
+
+  const hasPhotos = albumPhotos.length > 0
   const hasVideos = (article.videos ?? []).length > 0
 
 
@@ -206,7 +209,7 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
                 <circle cx="12" cy="13" r="4"/>
               </svg>
-              {t('tab_photos')} {formatCount(article.photos.length)}
+              {t('tab_photos')} {formatCount(albumPhotos.length)}
             </button>
           )}
 
@@ -221,6 +224,19 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
               </svg>
               {t('tab_video')} {formatCount(article.videos.length)}
             </button>
+          )}
+
+          {albumId && (
+            <Link
+              href={`/photo-video/albums/${albumId}`}
+              className="article-tab"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              {t('tab_album')}
+            </Link>
           )}
         </div>
       </div>
@@ -268,10 +284,10 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
               gap: 12,
               width: '100%',
             }}>
-              {article.photos.map((photo) => (
+              {albumPhotos.map((photo) => (
                 <div
                   key={photo.id}
-                  onClick={() => setSelectedPhoto(photo.image_url)}
+                  onClick={() => setSelectedPhoto(photo.image)}
                   style={{
                     position: 'relative',
                     aspectRatio: '4/3',
@@ -282,7 +298,7 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
                   }}
                 >
                   <Image
-                    src={photo.image_url}
+                    src={photo.image}
                     alt={`Фото ${photo.id}`}
                     fill
                     style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}

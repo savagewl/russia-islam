@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
-import { getAlbumById, getArticles, getArticleBySlug, formatDate, type Album, type ArticleDetail } from '@/lib/api'
+import { getAlbumById, getArticleBySlug, formatDate, type Album, type ArticleDetail } from '@/lib/api'
 import { getVideoEmbed } from '@/lib/videoEmbed'
 import { useLang } from '@/lib/LanguageContext'
 import { makeT } from '@/lib/translations'
@@ -49,15 +48,12 @@ export default function AlbumDetailPage() {
     getAlbumById(albumId)
       .then(async (data) => {
         setAlbum(data)
-        if (data.article) {
+        if (data.article_slug) {
           try {
-            // API возвращает только article ID — ищем статью через список
-            const list = await getArticles({ page: 1, lang })
-            const found = list.results.find(a => a.id === data.article)
-            if (found) {
-              const detail = await getArticleBySlug(found.slug, lang)
-              setArticle(detail)
-            }
+            const detail = await getArticleBySlug(data.article_slug, lang)
+            setArticle(detail)
+            const albumInArticle = detail.albums.find(a => a.id === albumId)
+            if (albumInArticle) setAlbum({ ...data, photos: albumInArticle.photos })
           } catch {}
         }
       })
