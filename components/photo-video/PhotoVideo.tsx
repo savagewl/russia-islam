@@ -23,6 +23,8 @@ const LocationIcon = () => (
   </svg>
 )
 
+const PAGE_SIZE = 8
+
 export default function PhotoVideo() {
   const { lang } = useLang()
   const t = makeT('photo_video', lang)
@@ -32,6 +34,8 @@ export default function PhotoVideo() {
   const [articles, setArticles] = useState<ArticlePreview[]>([])
   const [broadcasts, setBroadcasts] = useState<Broadcast[]>([])
   const [loadingList, setLoadingList] = useState(true)
+  const [page, setPage] = useState(1)
+  const [totalCount, setTotalCount] = useState(0)
 
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
@@ -51,47 +55,83 @@ export default function PhotoVideo() {
   }, [])
 
   useEffect(() => {
+    setPage(1)
+  }, [activeTab, dateFrom, dateTo, lang])
+
+  useEffect(() => {
     setLoadingList(true)
 
     if (activeTab === 'albums') {
-      getAlbums({ page: 1, page_size: 100, lang })
-        .then(data => {
-          let results = data.results
-          if (dateFrom) results = results.filter(a => a.created >= dateFrom)
-          if (dateTo) results = results.filter(a => a.created <= dateTo)
-          setAlbums(results.slice(0, 8))
-        })
-        .catch(() => setAlbums([]))
+      getAlbums({ page, page_size: PAGE_SIZE, lang })
+        .then(data => { setAlbums(data.results); setTotalCount(data.count) })
+        .catch(() => { setAlbums([]); setTotalCount(0) })
         .finally(() => setLoadingList(false))
       return
     }
 
     if (activeTab === 'broadcasts') {
       getBroadcasts({
-        page: 1, page_size: 8,
+        page, page_size: PAGE_SIZE,
         ...(dateFrom ? { event_date_from: `${dateFrom}T00:00:00` } : {}),
         ...(dateTo ? { event_date_to: `${dateTo}T23:59:59` } : {}),
         lang,
       })
-        .then(data => setBroadcasts(data.results))
-        .catch(() => setBroadcasts([]))
+        .then(data => { setBroadcasts(data.results); setTotalCount(data.count) })
+        .catch(() => { setBroadcasts([]); setTotalCount(0) })
         .finally(() => setLoadingList(false))
       return
     }
 
     getArticles({
-      page: 1, lang,
+      page, lang,
       ...(dateFrom ? { created_from: dateFrom } : {}),
       ...(dateTo ? { created_to: dateTo } : {}),
       has_videos: true,
     })
-      .then(data => setArticles(data.results.slice(0, 8)))
-      .catch(() => setArticles([]))
+      .then(data => { setArticles(data.results.slice(0, PAGE_SIZE)); setTotalCount(data.count) })
+      .catch(() => { setArticles([]); setTotalCount(0) })
       .finally(() => setLoadingList(false))
-  }, [activeTab, dateFrom, dateTo, lang])
+  }, [activeTab, dateFrom, dateTo, lang, page])
 
-  const handleApplyDate = () => { setDateFrom(pendingFrom); setDateTo(pendingTo); setShowDatePicker(false) }
-  const handleClearDate = () => { setDateFrom(''); setDateTo(''); setPendingFrom(''); setPendingTo(''); setShowDatePicker(false) }
+  const handleApplyDate = () => { setDateFrom(pendingFrom); setDateTo(pendingTo); setShowDatePicker(false); setPage(1) }
+  const handleClearDate = () => { setDateFrom(''); setDateTo(''); setPendingFrom(''); setPendingTo(''); setShowDatePicker(false); setPage(1) }
+
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE)
+
+  const Pagination = () => {
+    if (totalPages <= 1) return null
+    const pages = []
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= page - 2 && i <= page + 2)) {
+        pages.push(i)
+      } else if (pages[pages.length - 1] !== '...') {
+        pages.push('...')
+      }
+    }
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, marginTop: 40, flexWrap: 'wrap' }}>
+        <button
+          onClick={() => setPage(p => Math.max(1, p - 1))}
+          disabled={page === 1}
+          style={{ padding: '8px 14px', border: '1px solid #E0E0E0', borderRadius: 4, background: '#fff', cursor: page === 1 ? 'default' : 'pointer', color: page === 1 ? '#ccc' : '#393939', fontSize: 14 }}
+        >←</button>
+        {pages.map((p, i) =>
+          p === '...'
+            ? <span key={`ellipsis-${i}`} style={{ padding: '8px 4px', color: '#7C7C7C', fontSize: 14 }}>…</span>
+            : <button
+                key={`page-${p}`}
+                onClick={() => setPage(Number(p))}
+                style={{ padding: '8px 14px', border: '1px solid', borderRadius: 4, fontSize: 14, cursor: 'pointer', borderColor: page === p ? '#393939' : '#E0E0E0', background: page === p ? '#393939' : '#fff', color: page === p ? '#fff' : '#393939', fontWeight: page === p ? 600 : 400 }}
+              >{p}</button>
+        )}
+        <button
+          onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+          disabled={page === totalPages}
+          style={{ padding: '8px 14px', border: '1px solid #E0E0E0', borderRadius: 4, background: '#fff', cursor: page === totalPages ? 'default' : 'pointer', color: page === totalPages ? '#ccc' : '#393939', fontSize: 14 }}
+        >→</button>
+      </div>
+    )
+  }
 
   const hasDateFilter = dateFrom || dateTo
   const dateLabel = hasDateFilter ? `${dateFrom || '...'} — ${dateTo || '...'}` : t('select_date')
@@ -153,98 +193,107 @@ export default function PhotoVideo() {
 
           {/* АЛЬБОМЫ */}
           {activeTab === 'albums' && (
-            <div className="photo-grid-2x2">
-              {loadingList ? skeletonCards
-                : albums.length === 0
-                ? <div style={{ gridColumn: '1/-1', padding: '40px 0', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>{t('no_albums')}</div>
-                : albums.map(album => (
-                    <Link key={album.id} href={`/photo-video/albums/${album.id}`} className="photo-grid-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <div className="photo-grid-img">
-                        {album.photos.length > 0 ? (
-                          <img src={album.photos[0].image} alt={album.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        ) : (
-                          <div style={{ width: '100%', height: '100%', background: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                          </div>
-                        )}
-                        {album.photos.length > 0 && (
-                          <div className="photo-count-badge">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                            {t('photos_count')}: {album.photos.length}
-                          </div>
-                        )}
-                      </div>
-                      <div className="photo-grid-info">
-                        <h4 className="photo-grid-title">{album.title}</h4>
-                        <div className="photo-grid-meta">
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><CalendarIcon /> {formatDate(album.created, lang)}</span>
+            <>
+              <div className="photo-grid-2x2">
+                {loadingList ? skeletonCards
+                  : albums.length === 0
+                  ? <div style={{ gridColumn: '1/-1', padding: '40px 0', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>{t('no_albums')}</div>
+                  : albums.map(album => (
+                      <Link key={album.id} href={`/photo-video/albums/${album.id}`} className="photo-grid-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="photo-grid-img">
+                          {album.photos.length > 0 ? (
+                            <img src={album.photos[0].image} alt={album.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', background: '#e0e0e0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" strokeWidth="1.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                            </div>
+                          )}
+                          {album.photos.length > 0 && (
+                            <div className="photo-count-badge">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                              {t('photos_count')}: {album.photos.length}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                    </Link>
-                  ))
-              }
-            </div>
+                        <div className="photo-grid-info">
+                          <h4 className="photo-grid-title">{album.title}</h4>
+                          <div className="photo-grid-meta">
+                            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><CalendarIcon /> {formatDate(album.created, lang)}</span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                }
+              </div>
+              <Pagination />
+            </>
           )}
 
           {/* ВИДЕО */}
           {activeTab === 'videos' && (
-            <div className="photo-grid-2x2">
-              {loadingList ? skeletonCards
-                : articles.length === 0
-                ? <div style={{ gridColumn: '1/-1', padding: '40px 0', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>{t('not_found_period')}</div>
-                : articles.map(article => (
-                    <Link key={article.id} href={`/articles/${article.slug}`} className="photo-grid-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <div className="photo-grid-img">
-                        {article.preview_image_url ? (
-                          <Image src={article.preview_image_url} alt={article.title} fill style={{ objectFit: 'cover' }} sizes="300px" />
-                        ) : (
-                          <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="white" opacity="0.7"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <>
+              <div className="photo-grid-2x2">
+                {loadingList ? skeletonCards
+                  : articles.length === 0
+                  ? <div style={{ gridColumn: '1/-1', padding: '40px 0', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>{t('not_found_period')}</div>
+                  : articles.map(article => (
+                      <Link key={article.id} href={`/articles/${article.slug}`} className="photo-grid-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="photo-grid-img">
+                          {article.preview_image_url ? (
+                            <Image src={article.preview_image_url} alt={article.title} fill style={{ objectFit: 'cover' }} sizes="300px" />
+                          ) : (
+                            <div style={{ width: '100%', height: '100%', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <svg width="40" height="40" viewBox="0 0 24 24" fill="white" opacity="0.7"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            </div>
+                          )}
+                          <div className="photo-count-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            {t('tab_videos')}
                           </div>
-                        )}
-                        <div className="photo-count-badge">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                          {t('tab_videos')}
                         </div>
-                      </div>
-                      <div className="photo-grid-info">
-                        <h4 className="photo-grid-title">{article.title}</h4>
-                        <div className="photo-grid-meta">
-                          {article.location && <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><LocationIcon /> {article.location}</span>}
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><CalendarIcon /> {formatDate(article.created, lang)}</span>
+                        <div className="photo-grid-info">
+                          <h4 className="photo-grid-title">{article.title}</h4>
+                          <div className="photo-grid-meta">
+                            {article.location && <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><LocationIcon /> {article.location}</span>}
+                            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><CalendarIcon /> {formatDate(article.created, lang)}</span>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))
-              }
-            </div>
+                      </Link>
+                    ))
+                }
+              </div>
+              <Pagination />
+            </>
           )}
 
           {/* ТРАНСЛЯЦИИ */}
           {activeTab === 'broadcasts' && (
-            <div className="photo-grid-2x2">
-              {loadingList ? skeletonCards
-                : broadcasts.length === 0
-                ? <div style={{ gridColumn: '1/-1', padding: '40px 0', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>{t('no_broadcasts')}</div>
-                : broadcasts.map(broadcast => (
-                    <Link key={broadcast.id} href={`/photo-video/broadcasts/${broadcast.id}`} className="photo-grid-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <div className="photo-grid-img" style={{ position: 'relative', overflow: 'hidden' }}>
-                        <img src={broadcast.image ?? '/images/favicon-square.png'} alt={broadcast.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-                        <div className="photo-count-badge">
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49"/></svg>
-                          {t('tab_broadcasts')}
+            <>
+              <div className="photo-grid-2x2">
+                {loadingList ? skeletonCards
+                  : broadcasts.length === 0
+                  ? <div style={{ gridColumn: '1/-1', padding: '40px 0', textAlign: 'center', color: '#7C7C7C', fontSize: 14 }}>{t('no_broadcasts')}</div>
+                  : broadcasts.map(broadcast => (
+                      <Link key={broadcast.id} href={`/photo-video/broadcasts/${broadcast.id}`} className="photo-grid-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <div className="photo-grid-img" style={{ position: 'relative', overflow: 'hidden' }}>
+                          <img src={broadcast.image ?? '/images/favicon-square.png'} alt={broadcast.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <div className="photo-count-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49M7.76 16.24a6 6 0 0 1 0-8.49"/></svg>
+                            {t('tab_broadcasts')}
+                          </div>
                         </div>
-                      </div>
-                      <div className="photo-grid-info">
-                        <h4 className="photo-grid-title">{broadcast.title}</h4>
-                        <div className="photo-grid-meta">
-                          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><CalendarIcon /> {formatDate(broadcast.event_date, lang)}</span>
+                        <div className="photo-grid-info">
+                          <h4 className="photo-grid-title">{broadcast.title}</h4>
+                          <div className="photo-grid-meta">
+                            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><CalendarIcon /> {formatDate(broadcast.event_date, lang)}</span>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))
-              }
-            </div>
+                      </Link>
+                    ))
+                }
+              </div>
+              <Pagination />
+            </>
           )}
         </div>
       </section>
