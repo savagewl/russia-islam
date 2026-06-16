@@ -124,7 +124,7 @@ export async function getArticleBySlug(slug: string, lang?: string): Promise<Art
 }
 
 export async function getAllArticleSlugs(): Promise<string[]> {
-  const res = await fetch(`${API_BASE}/articles/slugs/`, { next: { revalidate: 60 } })
+  const res = await fetch(`${API_BASE}/articles/slugs/`, { next: { revalidate: 86400 } })
   if (!res.ok) throw new Error('Failed to fetch article slugs')
   return res.json()
 }
