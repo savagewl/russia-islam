@@ -1,0 +1,270 @@
+.experts-section {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+  width: 100%;
+  background: url('/images/Desktop_fon.png') center/cover no-repeat, #F9F9F9;
+  border-width: 1px 0px;
+  border-style: solid;
+  border-color: #E0E0E0;
+  position: relative;
+  overflow: visible;
+}
+
+.experts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  width: 1260px;
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.experts-header-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 46px;
+}
+
+.experts-title {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 27.83px;
+  line-height: 34px;
+  color: #393939;
+  margin: 0;
+}
+
+.experts-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.experts-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.experts-grid {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 17px;
+  width: max-content;
+  padding-bottom: 10px;
+}
+
+.expert-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  width: 409px;
+  height: 187.09px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 8.10px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.expert-img-wrapper {
+  width: 186px;
+  height: 187.09px;
+  flex: none;
+}
+
+.expert-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.expert-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 16px 20px 0px;
+  gap: 13px;
+  width: 190px;
+  height: 187px;
+  box-sizing: border-box;
+}
+
+.expert-text-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  width: 100%;
+}
+
+.expert-name {
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #393939;
+  margin: 0;
+}
+
+.expert-desc {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(57, 57, 57, 0.7);
+  margin: 0;
+}
+
+.expert-btn {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 9.33px 18px;
+  gap: 7px;
+  width: 139.31px;
+  height: 33px;
+  background: #F3F3F3;
+  border: 1px solid #E0E0E0;
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 14.36px;
+  color: #393939;
+  cursor: pointer;
+  transition: 0.2s;
+  text-decoration: none;
+}
+
+.expert-btn:hover { background: #EAEAEA; }
+
+.expert-btn-arrows {
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #393939;
+}
+
+.experts-scroller {
+  position: relative;
+  width: 1260px;
+  height: 4px;
+  background: #E0E0E0;
+  border-radius: 63px;
+  box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.06), inset 0px 1px 1px rgba(0, 0, 0, 0.06);
+}
+
+.experts-scroller-thumb {
+  position: absolute;
+  width: 420px;
+  height: 4px;
+  left: 0;
+  top: 0;
+  background: #393939;
+  border-radius: 63px;
+}
+
+
+@media (max-width: 768px) {
+  .experts-section {
+    padding: 24px 0;
+    overflow: hidden; 
+  }
+
+  .experts-container {
+    width: 100%;
+    gap: 20px;
+    padding: 0 14px;
+    box-sizing: border-box;
+  }
+
+  .experts-header-row { height: auto; }
+
+  .experts-title {
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  .experts-scroll-wrapper {
+    width: 100%;
+    margin: 0 -14px;
+    width: calc(100% + 28px);
+    padding: 0 14px;
+    box-sizing: border-box;
+  }
+
+  .experts-grid {
+    gap: 12px;
+    padding-bottom: 8px;
+    align-items: stretch;
+  }
+
+  .expert-card {
+    width: 340px;
+    height: 160px;
+    gap: 0;
+  }
+
+  .expert-img-wrapper {
+    width: 155px;
+    height: 160px;
+    flex: none;
+  }
+
+  .expert-info {
+    width: auto;
+    flex: 1;
+    height: 160px;
+    padding: 16px 14px;
+    gap: 10px;
+  }
+
+  .expert-name {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .expert-desc {
+    font-size: 11px;
+    line-height: 14px;
+  }
+
+  .expert-btn {
+    width: 100%;
+    height: 30px;
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
+  .experts-scroller {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 375px) {
+  .expert-card {
+    width: 300px;
+    height: 150px;
+  }
+
+  .expert-img-wrapper {
+    width: 135px;
+    height: 150px;
+  }
+
+  .expert-info {
+    height: 150px;
+    padding: 12px 10px;
+  }
+
+  .expert-name { font-size: 13px; }
+  .expert-desc { font-size: 10px; }
+}

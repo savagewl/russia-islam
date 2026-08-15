@@ -1,0 +1,715 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.islam-book-ref {
+  border-left: 3px solid #145c4c;
+  padding: 4px 0 4px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.islam-book-ref p {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.6;
+}
+
+.islam-book-ref-label {
+  font-weight: 600;
+  color: #111111;
+}
+
+.islam-book-ref.rtl {
+  border-left: none;
+  border-right: 3px solid #145c4c;
+  padding: 4px 16px 4px 0;
+  text-align: right;
+  direction: rtl;
+}
+
+.islam-section {
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: #F8F8F8; 
+}
+
+.islam-main-frame {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  padding: 32px 90px;
+  gap: 32px;
+  width: 1440px;
+  background-color: #F4F5F7; 
+  border-width: 1px 0px;
+  border-style: solid;
+  border-color: #E0E0E0;
+}
+
+.islam-content-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+  width: 1260px;
+}
+
+.islam-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 32px;
+  width: 1260px;
+  height: 344.04px;
+}
+
+.islam-card-small {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  width: 303px;
+  height: 344.04px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9.6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.islam-card-small:hover {
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  height: 165px; 
+  position: relative;
+}
+
+.card-image {
+  object-fit: cover;
+}
+
+.card-content-small {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 20px;
+  gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+}
+
+.card-title-small {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: #1A1A1A;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-desc-small {
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #888888;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+  color: #A0A0A0;
+}
+
+.card-location, .card-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.islam-card-large {
+  position: relative;
+  width: 619.25px;
+  height: 344.04px;
+  overflow: hidden;
+  box-shadow: 0px 0px 9.6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.card-image-large {
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.5s ease;
+}
+
+.islam-card-large:hover .card-image-large {
+  transform: scale(1.05);
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 40px 24px 24px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  z-index: 1;
+  box-sizing: border-box;
+}
+
+.card-meta-large {
+  display: flex;
+  gap: 12px;
+}
+
+.meta-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #FFFFFF;
+}
+
+.card-title-large {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.card-author {
+  font-weight: 500;
+  font-size: 14px;
+  color: #D3D3D3;
+  margin: 0;
+}
+
+.islam-pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0px;
+  gap: 8px;
+  width: 1260px;
+  height: 40px;
+  margin-top: 10px;
+  direction: ltr;
+}
+
+.page-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: #FFFFFF;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover {
+  background: #F0F0F0;
+}
+
+.page-btn.active {
+  background: #333333;
+  color: #FFFFFF;
+  border-color: #333333;
+}
+
+.page-dots {
+  color: #999999;
+  font-weight: 500;
+  padding: 0 8px;
+}
+
+
+.white-divider {
+  width: 100%;
+  height: 80px; 
+  background-color: #FFFFFF;
+}
+
+.scientific-articles-section {
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  background: #FFFFFF;
+  padding-bottom: 60px;
+}
+
+.scientific-container {
+  width: 1260px; 
+  display: flex;
+  flex-direction: column;
+}
+
+.experts-title {
+  font-weight: 300;
+  font-size: 24px;
+  color: #393939;
+  margin: 0;
+}
+
+.scientific-header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+
+.scientific-main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 32px;
+  width: 100%;
+}
+
+
+.scientific-cards-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 16px; 
+  width: 100%;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scientific-cards-row::-webkit-scrollbar {
+  display: none;
+}
+
+
+.scientific-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px;
+  width: 303px;
+  height: 344.04px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 9.6px rgba(0, 0, 0, 0.05);
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.scientific-card-img-wrapper {
+  width: 100%;
+  height: 160px; 
+  flex: none;
+}
+
+.scientific-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.scientific-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.scientific-card-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: #393939;
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+}
+
+.scientific-card-desc {
+  font-size: 12px;
+  color: rgba(57, 57, 57, 0.7);
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1; 
+}
+
+.scientific-card-divider {
+  width: 100%;
+  height: 1px;
+  background: #E0E0E0;
+  margin: 15px 0;
+}
+
+.scientific-card-meta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; 
+  margin-top: 0; 
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scientific-scroller {
+  position: relative;
+  width: 100%;
+  height: 4px;
+  box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.06), inset 0px 1px 1px rgba(0, 0, 0, 0.06);
+  background: #E0E0E0;
+  flex: none;
+  order: 2;
+  flex-grow: 0;
+}
+
+.scientific-scroller-thumb {
+  position: absolute;
+  width: 300px;
+  height: 4px;
+  left: 0;
+  top: 0;
+  background: #393939;
+}
+
+@media (max-width: 1440px) {
+  .islam-main-frame {
+    width: 100%;
+    padding: 32px 40px;
+  }
+  .islam-content-frame, .islam-row, .islam-pagination, .scientific-container {
+    width: 100%;
+  }
+  .islam-row, .scientific-cards-row {
+    height: auto;
+    flex-wrap: wrap;
+  }
+  .islam-card-large {
+    width: 100%; 
+  }
+  .islam-card-small, .scientific-card {
+    flex: 1 1 300px;
+  }
+  .scientific-articles-section {
+    padding: 20px 40px;
+  }
+}
+
+
+
+.islam-main-frame:has(.articles-page-layout) {
+  width: 100% !important;
+  align-items: stretch !important;
+  padding: 32px 90px !important;
+}
+
+@media (max-width: 1440px) {
+  .islam-main-frame:has(.articles-page-layout) {
+    padding: 32px 40px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .islam-main-frame:has(.articles-page-layout) {
+    padding: 24px 14px !important;
+  }
+}
+
+.articles-page-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+  padding: 32px 0;
+}
+
+.articles-page-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.articles-page-content .islam-content-frame { width: 100% !important; }
+.articles-page-content .islam-row { width: 100% !important; height: auto !important; }
+.articles-page-content .islam-card-large { flex: 1 1 50% !important; width: auto !important; min-width: 0 !important; }
+.articles-page-content .islam-card-small { flex: 1 1 25% !important; width: auto !important; min-width: 0 !important; }
+.articles-page-content .islam-pagination { width: 100% !important; }
+
+.articles-calendar-sidebar {
+  flex-shrink: 0;
+  width: 280px;
+}
+
+.articles-calendar-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #7C7C7C;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.articles-calendar-box {
+  background: #fff;
+  border: 1px solid #E0E0E0;
+  padding: 16px;
+}
+
+.articles-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.articles-calendar-nav {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #51AB64;
+  font-size: 18px;
+  padding: 0 6px;
+  line-height: 1;
+}
+
+button.articles-calendar-month {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #51AB64;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 4px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+button.articles-calendar-month:hover { background: #F0F0F0; }
+button.articles-calendar-month.active { background: #393939; color: #fff; }
+
+.articles-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.articles-calendar-dayname {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #7C7C7C;
+  padding: 4px 0;
+}
+
+.articles-calendar-day {
+  text-align: center;
+  padding: 7px 0;
+  font-size: 13px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: #393939;
+  transition: background 0.15s;
+  user-select: none;
+}
+.articles-calendar-day:hover:not(.empty):not(.selected):not(.today) { background: #F0F0F0; }
+.articles-calendar-day.empty { cursor: default; color: transparent; }
+.articles-calendar-day.today { background: #51AB64; color: #fff; font-weight: 600; }
+.articles-calendar-day.selected { background: #393939; color: #fff; }
+
+.articles-calendar-days-scroll {
+  max-height: 220px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #393939 #E0E0E0;
+}
+.articles-calendar-days-scroll::-webkit-scrollbar { width: 3px; }
+.articles-calendar-days-scroll::-webkit-scrollbar-track { background: #E0E0E0; }
+.articles-calendar-days-scroll::-webkit-scrollbar-thumb { background: #393939; border-radius: 2px; }
+
+.articles-calendar-reset {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  background: none;
+  border: 1px solid #E0E0E0;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  color: #393939;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.2s;
+}
+.articles-calendar-reset:hover { background: #F5F5F5; }
+
+.articles-calendar-selected-label {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #7C7C7C;
+  text-align: center;
+}
+
+.articles-calendar-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin: 8px 0;
+}
+
+.articles-calendar-picker-item {
+  padding: 8px 4px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: #393939;
+  text-align: center;
+  transition: all 0.15s;
+  font-family: 'Inter', sans-serif;
+}
+.articles-calendar-picker-item:hover { background: #F0F0F0; border-color: #E0E0E0; }
+.articles-calendar-picker-item.active { background: #393939; color: #fff; border-color: #393939; }
+
+@media (max-width: 1024px) {
+  .articles-page-layout {
+    flex-direction: column;
+    width: 100%;
+    padding: 24px 0 0;
+    gap: 24px;
+  }
+  .articles-calendar-sidebar {
+    width: 100%;
+    order: -1;
+  }
+  .articles-calendar-box { max-width: 400px; }
+}
+
+@media (max-width: 768px) {
+  .articles-page-layout {
+    padding: 16px 0 0;
+    gap: 16px;
+  }
+  .articles-calendar-box { max-width: 100%; }
+
+  .articles-page-content .islam-row {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    height: auto !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  .articles-page-content .islam-card-large {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    height: 200px !important;
+  }
+
+  .articles-page-content .islam-card-small {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    height: 110px !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+  }
+
+  .articles-page-content .islam-card-small .card-image-wrapper {
+    width: 120px !important;
+    min-width: 120px !important;
+    height: 110px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .articles-page-content .islam-card-small .card-content-small {
+    flex: 1 !important;
+    min-width: 0 !important;
+    padding: 10px 12px !important;
+    gap: 4px !important;
+  }
+
+  .articles-page-content .islam-card-small .card-title-small {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+    -webkit-line-clamp: 3 !important;
+  }
+
+  .articles-page-content .islam-card-small .card-desc-small {
+    display: none !important;
+  }
+
+  .articles-page-content .islam-card-small .card-meta {
+    font-size: 10px !important;
+    margin-top: auto !important;
+  }
+
+  .articles-page-content .islam-pagination {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    height: auto !important;
+    gap: 6px !important;
+  }
+
+  .page-btn {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 13px !important;
+  }
+}
