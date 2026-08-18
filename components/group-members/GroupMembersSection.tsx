@@ -618,11 +618,11 @@ export default function GroupMembersSection() {
           img: '/images/149452.png',
         },
         {
-          names: { ru: 'ТАДЖУТДИН Талгат хазрат', en: 'Talgat hazrat TADZHUDDIN', ar: 'طلعت حضرة تاج الدين' },
+          names: { ru: 'ТАДЖУДДИН Талгат хазрат', en: 'Talgat hazrat TADZHUDDIN', ar: 'طلعت حضرة تاج الدين' },
           roles: {
-            ru: 'Председатель Центрального духовного управления мусульман, Верховный муфтий России',
-            en: 'Chairman of the Central Religious Board of Muslims, Supreme Mufti of Russia, Sheikh-ul-Islam',
-            ar: 'رئيس الإدارة الدينية المركزية للمسلمين، المفتي الأعلى لروسيا، شيخ الإسلام',
+            ru: 'Председатель Центрального духовного управления мусульман России',
+            en: 'Chairman of the Central Religious Board of Muslims of Russia',
+            ar: 'رئيس الإدارة الدينية المركزية للمسلمين في روسيا',
           },
           img: '/images/149452.png',
         },
