@@ -72,7 +72,6 @@ const translations = {
     tab_article:      { ru: 'Статья',                                           en: 'Article',                                         ar: 'مقالة' },
     tab_photos:       { ru: 'Фотографии',                                       en: 'Photos',                                          ar: 'صور' },
     tab_video:        { ru: 'Видео',                                            en: 'Video',                                           ar: 'فيديو' },
-    tab_album:        { ru: 'Фотоальбом',                                       en: 'Photo Album',                                     ar: 'ألبوم الصور' },
     video_unsupported:{ ru: 'Видео недоступно для встроенного просмотра',       en: 'This video is not available for inline viewing',  ar: 'هذا الفيديو غير متاح للعرض المضمّن' },
     open_video:       { ru: 'Открыть видео',                                    en: 'Open video',                                      ar: 'فتح الفيديو' },
   },
