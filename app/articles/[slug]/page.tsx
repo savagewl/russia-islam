@@ -1,7 +1,6 @@
 // app/articles/[slug]/page.tsx
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import { getArticleBySlug, getAllArticleSlugs } from '@/lib/api'
 import ArticleTabs from './ArticleTabs'
 import ArticleMeta from './ArticleMeta'
@@ -132,28 +131,6 @@ export default async function ArticleDetailPage({ params }: Props) {
         </div>
 
         <ArticleMeta created={article.created} location={article.location} slug={slug} />
-
-        {article.preview_image_url && (
-          <div style={{
-            width: '100%',
-            maxWidth: 860,
-            aspectRatio: '16/9',
-            position: 'relative',
-            overflow: 'hidden',
-            marginBottom: 32,
-            borderRadius: 4,
-            background: '#f0f0f0',
-          }}>
-            <Image
-              src={article.preview_image_url}
-              alt={article.title}
-              fill
-              style={{ objectFit: 'cover' }}
-              sizes="(max-width: 768px) 100vw, 860px"
-              priority
-            />
-          </div>
-        )}
 
         <ArticleTabs article={article} slug={slug} />
 

@@ -172,6 +172,34 @@ export default function ArticleTabs({ article, slug }: { article: ArticleDetail;
 
   return (
     <>
+      {translatedArticle.preview_image_url && (
+        <div style={{
+          width: '100%',
+          maxWidth: 860,
+          aspectRatio: '16/9',
+          position: 'relative',
+          overflow: 'hidden',
+          marginBottom: translatedArticle.preview_image_source ? 8 : 32,
+          borderRadius: 4,
+          background: '#f0f0f0',
+        }}>
+          <Image
+            src={translatedArticle.preview_image_url}
+            alt={translatedArticle.title}
+            fill
+            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 768px) 100vw, 860px"
+            priority
+          />
+        </div>
+      )}
+
+      {translatedArticle.preview_image_source && (
+        <p style={{ color: '#888888', fontSize: 14, marginTop: 0, marginBottom: 32 }}>
+          {t('source')}: {translatedArticle.preview_image_source}
+        </p>
+      )}
+
       <div className="article-title-wrapper" translate="no">
         <h1 className="article-title">{translatedArticle.title}</h1>
       </div>

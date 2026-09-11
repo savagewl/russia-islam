@@ -31,6 +31,7 @@ export interface ArticlePreview {
 export interface ArticleDetail extends ArticlePreview {
   description: string
   source: string
+  preview_image_source: string
   expert_detail: {
     id: number
     name: string
